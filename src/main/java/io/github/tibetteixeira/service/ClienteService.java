@@ -4,21 +4,29 @@ import io.github.tibetteixeira.model.Cliente;
 import io.github.tibetteixeira.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
+
 @Service
 public class ClienteService {
 
-    private ClienteRepository clienteRepository;
+    private ClienteRepository repository;
 
     public ClienteService(ClienteRepository clienteRepository) {
-        this.clienteRepository = clienteRepository;
+        this.repository = clienteRepository;
     }
 
-    public void salvarCliente(Cliente cliente) {
+    public void salvar(Cliente cliente) {
         validarCliente(cliente);
-        clienteRepository.salvarCliente(cliente);
+        repository.salvar(cliente);
+    }
+
+    public List<Cliente> listarTodos() {
+        return repository.listarTodos();
     }
 
     private void validarCliente(Cliente cliente) {
-        // TODO: TBD
+        if (Objects.isNull(cliente) || Objects.isNull(cliente.getNome()))
+            throw new RuntimeException("Cliente inválido");
     }
 }
